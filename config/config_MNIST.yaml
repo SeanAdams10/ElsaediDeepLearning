@@ -1,0 +1,22 @@
+#Network Shape
+
+hidden_sizes: [256, 64] #Hidden layer sizes for actor and critic networks
+
+#Learning Hyperparameters
+learning_rate: 0.01
+batch_size: 64
+dropout_rate: 0.2
+
+#Seed
+seed: 42   
+
+#Training
+max_epochs: 1000
+
+#Logging
+wandb_project: mnist_deep_learning
+use_wandb: true
+group_name: "latest" #group name for wandb runs, set to None to disable grouping
+
+
+
