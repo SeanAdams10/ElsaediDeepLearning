@@ -8,3 +8,12 @@ wheels/
 
 # Virtual environments
 .venv
+
+# data folder
+data/
+
+#wandb folder
+wandb/
+
+#Optuna studies database
+studies/*.db
