@@ -51,11 +51,12 @@ def log_config_to_trial(trial: optuna.Trial, config: dict, prefix: str = "config
 
 def build_trial_config(base_cfg: DictConfig, trial: optuna.Trial) -> DictConfig:
     trial_cfg = OmegaConf.create(OmegaConf.to_container(base_cfg, resolve=True))
+    # Study 1 findings: batch_size matters (rho=-0.36), smaller hidden layers better
     trial_cfg.batch_size = trial.suggest_categorical("batch_size", [128, 256, 512, 1024])
-    trial_cfg.learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-2, log=True)
-    trial_cfg.hidden_layer_1 = trial.suggest_int("hidden_layer_1", 128, 512, step=64)
-    trial_cfg.hidden_layer_2 = trial.suggest_int("hidden_layer_2", 32, trial_cfg.hidden_layer_1, step=32)
-    trial_cfg.dropout_rate = trial.suggest_float("dropout_rate", 0.0, 0.5)
+    trial_cfg.learning_rate = trial.suggest_float("learning_rate", 5e-4, 1e-3, log=True)
+    trial_cfg.hidden_layer_1 = trial.suggest_int("hidden_layer_1", 64, 256, step=32)
+    trial_cfg.hidden_layer_2 = trial.suggest_int("hidden_layer_2", 32, 160, step=16)
+    trial_cfg.dropout_rate = trial.suggest_float("dropout_rate", 0.2, 0.4)
     trial_cfg.max_epochs = 40
     trial_cfg.use_wandb = False
     trial_cfg.use_optuna = True
@@ -99,9 +100,9 @@ def run_study(cfg: DictConfig | None = None):
         multivariate=True,
         constant_liar=True,
     )
-    storage_url = f"sqlite:///{(STUDIES_DIR / 'Optuna_batchsize.db').as_posix()}"
+    storage_url = f"sqlite:///{(STUDIES_DIR / 'Optuna_batchsize_v2.db').as_posix()}"
     study = optuna.create_study(
-        study_name="Optuna_batchsize",
+        study_name="Optuna_batchsize_v2",
         direction="maximize",
         sampler=sampler,
         storage=storage_url,

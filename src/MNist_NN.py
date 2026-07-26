@@ -48,8 +48,33 @@ def load_mnist_data(batch_size=64, use_cuda = False):
     train_dataset = datasets.MNIST(root='./data', train=True, download=True, transform=transform)
     test_dataset = datasets.MNIST(root='./data', train=False, download=True, transform=transform)
 
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, pin_memory=use_cuda)
-    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False , pin_memory=use_cuda)
+    if use_cuda:
+        num_workers = 10
+        prefetch_factor = 4
+        persistent_workers = True
+    else:
+        num_workers = 0
+        prefetch_factor = None
+        persistent_workers = False
+
+    train_loader = DataLoader(
+        train_dataset,
+        batch_size=batch_size,
+        shuffle=True,
+        pin_memory=use_cuda,
+        num_workers=num_workers,
+        prefetch_factor=prefetch_factor,
+        persistent_workers=persistent_workers
+    )
+    test_loader = DataLoader(
+        test_dataset,
+        batch_size=batch_size,
+        shuffle=False,
+        pin_memory=use_cuda,
+        num_workers=num_workers,
+        prefetch_factor=prefetch_factor,
+        persistent_workers=persistent_workers
+    )
 
     return train_loader, test_loader
 
@@ -108,7 +133,7 @@ def train(cfg: DictConfig, device: torch.device):
         model.train()
         for images, labels in train_loader:
             optimizer.zero_grad()
-            images, labels = images.to(device, non_blocking=True), labels.to(device, non_blocking=True)
+            images, labels = images.to(device), labels.to(device)
             outputs = model(images)
             loss = criterion(outputs, labels)
             loss.backward()
@@ -129,7 +154,7 @@ def train(cfg: DictConfig, device: torch.device):
         total = 0
         with torch.no_grad():
             for images, labels in test_loader:
-                images, labels = images.to(device, non_blocking=True), labels.to(device, non_blocking=True)
+                images, labels = images.to(device), labels.to(device)
                 outputs = model(images)
                 _, predicted = torch.max(outputs.data, 1)
                 total += labels.size(0)

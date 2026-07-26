@@ -15,6 +15,7 @@ dependencies = [
     "ty>=0.0.63",
     "wandb>=0.28.1",
     "pandas>=3.0.5",
+    "scikit-learn>=1.9.0",
 ]
 
 [[tool.uv.index]]

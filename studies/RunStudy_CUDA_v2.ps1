@@ -1,4 +1,5 @@
-# Usage: .\studies\RunStudy_CUDA.ps1 -MaxInstances 4 -MaxCPU 80
+# Usage: .\studies\RunStudy_CUDA_v2.ps1 -MaxInstances 4 -MaxCPU 80
+# Study v2: refined hyperparameter ranges based on Study 1 analysis
 # With 32 cores, running 3-4 instances in parallel is optimal
 param(
     [ValidateRange(1, 10)]
@@ -68,7 +69,7 @@ while ($i -le $total) {
         Write-Host "GPU is below $MaxGPU%: $gpuUsage"
 
         Start-Process powershell -ArgumentList "-NoExit", "-Command", `
-            "`$env:MNIST_DEVICE='cuda'; d:; cd D:\SeanDevLocal\ElsaediDeepLearning\; uv run .\studies\Optuna_batchsize.py"
+            "`$env:MNIST_DEVICE='cuda'; d:; cd D:\SeanDevLocal\ElsaediDeepLearning\; uv run .\studies\Optuna_batchsize_v2.py"
 
         Write-Host "Launched instance $i"
     }

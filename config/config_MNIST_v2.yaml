@@ -1,16 +1,18 @@
 #Network Shape
+# Study 1 analysis: smaller layers perform better (rho=0.41-0.51)
 
 hidden_layer_1: 256 #Number of neurons in the first hidden layer
-hidden_layer_2: 64 #Number of neurons in the second hidden layer
+hidden_layer_2: 128 #Number of neurons in the second hidden layer (reduced from 64)
 device: "cuda" #Device to use for training, set to "cpu" or "cuda"
 
 #Learning Hyperparameters
-learning_rate: 0.0005
-batch_size: 128
-dropout_rate: 0.2
+# Study 1 analysis: batch_size matters (rho=-0.36), learning_rate/dropout flat signals
+learning_rate: 0.0007
+batch_size: 256
+dropout_rate: 0.3
 
 #Seed
-seed: 42   
+seed: 42
 
 #Training
 max_epochs: 10
@@ -23,6 +25,4 @@ group_name: "latest" #group name for wandb runs, set to None to disable grouping
 #Optuna
 use_optuna: false
 optuna_trials: 100
-
-
 

@@ -1,6 +1,6 @@
 param(
-    [string]$StudyName = "Optuna_batchsize",
-    [string]$StudyDb = "studies/Optuna_batchsize.db",
+    [string]$StudyName = "Optuna_batchsize_v2",
+    [string]$StudyDb = "studies/Optuna_batchsize_v2.db",
     [switch]$ConvergenceOnly = $false
 )
 
