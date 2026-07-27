@@ -2,7 +2,7 @@
 # Study v2: refined hyperparameter ranges based on Study 1 analysis
 # With 32 cores, running 3-4 instances in parallel is optimal
 param(
-    [ValidateRange(1, 10)]
+    [ValidateRange(1, 100)]
     [int]$MaxInstances = 4,
 
     [ValidateRange(1, 100)]

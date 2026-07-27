@@ -1,0 +1,35 @@
+#Network Shape
+# Final configuration based on 1356 Optuna trials across v1 (81) and v2 (1275)
+# v2 pinning analysis: hidden_layer_1=64 at lower boundary, dropout=0.39 at upper boundary
+
+hidden_layer_1: 64      # Pinned low; all top performers use 64. True optimum may be <64.
+hidden_layer_2: 64      # Top performers cluster at 32-96; mean of top-5 is 67.2, median 80
+device: "cuda"
+
+#Learning Hyperparameters
+# v1: learning_rate showed flat signal (rho=0.023)
+# v2: learning_rate shows signal (rho=-0.315); all top performers converge to 0.001
+learning_rate: 0.0007   # v2 top-5 mean; all top trials use ~0.001
+
+batch_size: 256         # v1 strong signal (rho=-0.384) vs v2 weak (rho=-0.236)
+                        # Confounding in v1 with layer size; weak genuine effect in v2
+                        # Use conservative middle estimate
+
+dropout_rate: 0.39      # v2 pinning high at 0.399 (rho=-0.436)
+                        # Strong regularization benefit for MNIST; higher is better
+
+#Seed
+seed: 42
+
+#Training
+max_epochs: 40
+
+#Logging
+wandb_project: mnist_deep_learning
+use_wandb: true
+group_name: "final"
+
+#Optuna
+use_optuna: false
+optuna_trials: 100
+
