@@ -1,0 +1,28 @@
+[project]
+name = "elsaedideeplearning"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "matplotlib>=3.11.1",
+    "optuna>=4.0.0",
+    "numpy>=2.5.1",
+    "omegaconf>=2.3.0",
+    "pytest>=9.1.1",
+    "torch>=2.6.0",
+    "torchvision>=0.21.0",
+    "ty>=0.0.63",
+    "wandb>=0.28.1",
+    "pandas>=3.0.5",
+    "scikit-learn>=1.9.0",
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu124" }
+torchvision = { index = "pytorch-cu124" }
